@@ -1,10 +1,36 @@
-if __name__ == '__main__':
+import argparse
+
+def get_matrix_from_file(filename: str):
+    matrix = []
+
+    try:
+        with open(filename, 'r') as file:
+           file_lines = file.readlines()
+
+           matrix_size = int(file_lines[0])
+
+           for i in range(1, len(file_lines)):
+               matrix_row_str = file_lines[i].strip().split()
+
+               matrix.append(list(map(int, matrix_row_str)))
+
+    except Exception as err:
+        print('Error opening matrix file:\n', err)
+
+    return matrix
+
+def get_matrix_from_user_input():
+    matrix = []
+
     try:
         matrix_size = int(input('Enter matrix size: '))
 
-        matrix = []
-
         print('Enter matrix elements:\n')
+
+        if matrix_size == 1:
+            matrix.append(int(input()))
+
+            return matrix
 
         for i in range(matrix_size):
             matrix_row = []
@@ -15,7 +41,28 @@ if __name__ == '__main__':
                 matrix_row.append(matrix_element)
 
             matrix.append(matrix_row)
-
-        print(matrix)
     except ValueError:
-        print('You should enter integer value for matrix size!')
+        print('You must provide integer value for matrix size!')
+
+    return matrix
+
+def get_arguments_dict():
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument('--matrix-file', help='Path to file that contains matrix elements')
+
+    args = parser.parse_args()
+
+    args_dict = vars(args)
+
+    return args_dict
+
+if __name__ == '__main__':
+    args_dict = get_arguments_dict()
+
+    if 'matrix_file' in args_dict:
+        matrix = get_matrix_from_file(args_dict['matrix_file'])
+    else:
+        matrix = get_matrix_from_user_input()
+
+    print(matrix)
