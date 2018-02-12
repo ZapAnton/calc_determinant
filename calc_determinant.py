@@ -1,4 +1,5 @@
 import argparse
+import timeit
 
 def get_matrix_from_file(filename: str):
     matrix = []
@@ -84,7 +85,13 @@ if __name__ == '__main__':
     else:
         matrix = get_matrix_from_user_input()
 
+    start = timeit.default_timer()
+
     determinant = calc_determinant(matrix)
 
+    end = timeit.default_timer()
+
     print('Determinant =', determinant)
+
+    print('Execution time:', (end - start), 'seconds')
 
