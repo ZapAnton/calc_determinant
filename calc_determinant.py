@@ -57,12 +57,34 @@ def get_arguments_dict():
 
     return args_dict
 
+def check_for_C_implementation():
+    return False
+
+def calc_determinant(matrix):
+    C_implementation_present = check_for_C_implementation()
+
+    calc_determinant_function = None
+
+    if not C_implementation_present:
+        import calc_determinant_PY
+
+        calc_determinant_function = calc_determinant_PY.calc_determinant
+    else:
+        import calc_determinant_C
+
+        calc_determinant_function = calc_determinant_C.calc_determinant
+
+    return calc_determinant_function(matrix)
+
 if __name__ == '__main__':
     args_dict = get_arguments_dict()
 
-    if 'matrix_file' in args_dict:
+    if args_dict.get('matrix_file'):
         matrix = get_matrix_from_file(args_dict['matrix_file'])
     else:
         matrix = get_matrix_from_user_input()
 
-    print(matrix)
+    determinant = calc_determinant(matrix)
+
+    print('Determinant =', determinant)
+
