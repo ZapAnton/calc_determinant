@@ -84,8 +84,6 @@ if __name__ == '__main__':
     else:
         matrix = get_matrix_from_user_input()
 
-    print(matrix)
-
     determinant = calc_determinant(matrix)
 
     print('Determinant =', determinant)
