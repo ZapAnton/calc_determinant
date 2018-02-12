@@ -1,3 +1,20 @@
+import threading
+
+class MinorDeterminantCalcThread(threading.Thread):
+
+    def __init__(self, minor):
+        threading.Thread.__init__(self)
+
+        self.minor = minor
+
+        self.determinant = 0
+
+    def run(self):
+        self.determinant = calc_determinant(self.minor)
+
+    def get_determinant(self):
+        return self.determinant
+
 def get_minor(matrix, i, j):
     minor = []
 
@@ -21,10 +38,20 @@ def calc_determinant_through_decomposition(matrix):
 
     first_row = matrix[0]
 
+    minor_threads = []
+
     for i, row_element in enumerate(first_row):
         minor = get_minor(matrix, 0, i)
 
-        determinant += (-1) ** i * row_element * calc_determinant(minor)
+        minor_threads.append(MinorDeterminantCalcThread(minor))
+
+        minor_threads[i].start()
+
+    for minor_thread in minor_threads:
+        minor_thread.join()
+
+    for i, row_element in enumerate(first_row):
+        determinant += (-1) ** i * row_element * minor_threads[i].get_determinant()
 
     return determinant
 
