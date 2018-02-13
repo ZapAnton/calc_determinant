@@ -59,7 +59,7 @@ def get_arguments_dict():
     return args_dict
 
 def check_for_C_implementation():
-    return False
+    return True
 
 def calc_determinant(matrix):
     C_implementation_present = check_for_C_implementation()
