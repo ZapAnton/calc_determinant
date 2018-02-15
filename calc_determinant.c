@@ -9,18 +9,6 @@ double calc_determinant_through_decomposition(int, int**);
 double calc_minor_determinant(int**, int, int, int);
 
 double calc_determinant(int matrix_size, int** matrix) {
-	for (int i = 0; i < matrix_size; ++i) {
-		for (int j = 0; j < matrix_size; ++j) {
-			printf("%d", matrix[i][j]);
-
-			if (j == matrix_size - 1) {
-				printf("\n");
-			} else {
-				printf(" ");
-			}
-		}
-	}
-
 	switch (matrix_size) {
 		case 0:
 			return 0;

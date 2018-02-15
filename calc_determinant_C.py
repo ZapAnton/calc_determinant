@@ -4,7 +4,7 @@ from ctypes import POINTER
 def calc_determinant(matrix):
     detlib = ctypes.CDLL('./calc_determinant.so')
 
-    detlib.restype = ctypes.c_double
+    detlib.calc_determinant.restype = ctypes.c_double
 
     matrix_size = len(matrix)
 
